@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-
-import 'home.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'busInfo.dart';
 import 'stdinfo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BusInfo extends StatefulWidget {
-  const BusInfo({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  _BusInfoState createState() => _BusInfoState();
+  State<Home> createState() => _HomeState();
 }
 
-class _BusInfoState extends State<BusInfo> {
-  List<BusDriver> busDrivers = [];
+class _HomeState extends State<Home> {
+  late GoogleMapController mapController;
+  static const CameraPosition _initialLocation = CameraPosition(
+      target: LatLng(32.02363463930013, 35.87613106096076), zoom: 13);
 
+
+  Set<Marker> markers = Set(); // Use a Set to avoid duplicate markers
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +73,36 @@ class _BusInfoState extends State<BusInfo> {
           ),
         ],
       ),
+      body: StreamBuilder(
+        //Get all the routes that's available in Madinah called Routes
+        stream: FirebaseFirestore.instance.collectionGroup('markersAdmin').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Text('loading map');
+          for (var element in snapshot.data!.docs) {
+            //For each document in the routes, retrieve their data
+            final data = element.data();
+            if (data['location'] != null) {
+              // the marker id is the document title exists in the firestore
+              final MarkerId markerId = MarkerId(element.id.toString());
+              final Marker marker = Marker(
+                markerId: markerId,
+                //retrieve each marker's latitude and longitude from firestore
+                position: LatLng(
+                    data['location'].latitude, data['location'].longitude),
+                //display the marker title
+                infoWindow: InfoWindow(title: element.id.toString()),
+              );
+              markers.add(marker);
+            }
+          }
+          return GoogleMap(
+            mapToolbarEnabled: false,
+            initialCameraPosition: _initialLocation,
+            onMapCreated: _onMapCreated,
+            markers: markers,
+          );
+        },
+      ),
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: ListView(
@@ -92,10 +127,6 @@ class _BusInfoState extends State<BusInfo> {
                     fontFamily: 'Wellfleet',
                     fontSize: 15.0,
                   )),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
-              },
             ),
             ListTile(
               selectedColor: Colors.grey[400],
@@ -168,7 +199,7 @@ class _BusInfoState extends State<BusInfo> {
                   ),
                   const Text('Employee ID',
                       style:
-                      TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
+                          TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
                 ],
               ),
               tileColor: Colors.grey[200],
@@ -184,90 +215,12 @@ class _BusInfoState extends State<BusInfo> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                busDrivers.add(BusDriver());
-              });
-            },
-            child: const Text('Add Bus Driver'),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: busDrivers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Text('${index + 1}'),
-                  title: Text(busDrivers[index].route),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              String newRoute = busDrivers[index].route;
-                              return AlertDialog(
-                                title: const Text('Edit Bus Driver'),
-                                content: Column(
-                                  children: [
-                                    TextField(
-                                      onChanged: (value) {
-                                        newRoute = value;
-                                      },
-                                      decoration: const InputDecoration(
-                                        labelText: 'Bus Route',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        busDrivers[index].route = newRoute;
-                                      });
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Save'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          setState(() {
-                            busDrivers.removeAt(index);
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Logout logic
-          Navigator.pushNamed(context, 'lib/pages/login.dart');
-        },
-        child: const Icon(Icons.logout),
-      ),
     );
   }
-}
 
-class BusDriver {
-  String route = 'Bus Route';
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
+  }
 }

@@ -3,6 +3,11 @@
         android:label="my_bus_portal"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- GOOGLE MAPS API to access the google maps application-->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB6fVHZJJyDZUc4DNSreEZUy6tacqEqeQ0"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

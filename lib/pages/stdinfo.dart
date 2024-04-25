@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+
+import 'busInfo.dart';
+import 'home.dart';
 
 class StdInfo extends StatefulWidget {
   const StdInfo({super.key});
@@ -14,87 +16,169 @@ class _StdInfoState extends State<StdInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Info'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Notifications'),
-                    content: const Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 1'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 2'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 3'),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.blue[900]),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Image.asset(
+            'lib/assets/images/logo.png',
+            width: 84.0,
+            height: 50.0,
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.notifications,
+                color: Colors.blue[900],
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Notifications'),
+                      content: const Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.notification_important),
+                            title: Text('Notification 1'),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.notification_important),
+                            title: Text('Notification 2'),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.notification_important),
+                            title: Text('Notification 3'),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Close'),
                         ),
                       ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(20.0),
           children: [
-            const DrawerHeader(
-              child: Text('Employee ID'),
+            DrawerHeader(
+              child: Image.asset(
+                'lib/assets/images/logo.png',
+                width: 50.0,
+                height: 50.0,
+              ),
             ),
             ListTile(
-              leading: const Icon(Icons.dashboard),
-              title: const Text('Dashboard'),
+              selectedColor: Colors.grey[400],
+              leading: Icon(
+                Icons.dashboard,
+                color: Colors.blue[900],
+              ),
+              title: const Text('Dashboard',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                  )),
               onTap: () {
-                Navigator.pushNamed(context, '/dashboard');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
               },
             ),
             ListTile(
-              leading: const Icon(Icons.directions_bus),
-              title: const Text('Bus Drivers'),
+              selectedColor: Colors.grey[400],
+              leading: Icon(Icons.directions_bus, color: Colors.blue[900]),
+              title: const Text('Bus Drivers',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                  )),
               onTap: () {
-                Navigator.pushNamed(context, '/busInfo');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const BusInfo()));
               },
             ),
             ListTile(
-              leading: const Icon(Icons.message),
-              title: const Text('Messages'),
+              selectedColor: Colors.grey[400],
+              leading: Icon(
+                Icons.message,
+                color: Colors.blue[900],
+              ),
+              title: const Text('Messages',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                  )),
               onTap: () {
                 Navigator.pushNamed(context, '/messages');
+                // Navigator.push(context,MaterialPageRoute(builder: (context) =>const Home()));
               },
             ),
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Student Files'),
+              selectedColor: Colors.grey[400],
+              leading: Icon(
+                Icons.person,
+                color: Colors.blue[900],
+              ),
+              title: const Text('Student Files',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                  )),
               onTap: () {
-                Navigator.pushNamed(context, '/stdinfo');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const StdInfo()));
               },
             ),
             ListTile(
-              leading: const Icon(Icons.schedule),
-              title: const Text('Bus Schedule'),
+              selectedColor: Colors.grey[400],
+              leading: Icon(
+                Icons.schedule,
+                color: Colors.blue[900],
+              ),
+              title: const Text('Bus Schedule',
+                  style: TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
               onTap: () {
                 Navigator.pushNamed(context, '/sched');
+                //  Navigator.push(context,MaterialPageRoute(builder: (context) => const Home()));
+              },
+            ),
+            const SizedBox(
+              height: 300.0,
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Image.asset(
+                    'lib/assets/images/logo.png',
+                    width: 84.0,
+                    height: 50.0,
+                  ),
+                  const Text('Employee ID',
+                      style:
+                      TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
+                ],
+              ),
+              tileColor: Colors.grey[200],
+              trailing: Icon(
+                Icons.logout_sharp,
+                color: Colors.blue[900],
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/sched');
+                //  Navigator.push(context,MaterialPageRoute(builder: (context) => const Home()));
               },
             ),
           ],

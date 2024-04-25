@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:footer/footer.dart';
+import 'package:footer/footer_view.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,84 +15,147 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 180,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Employee ID',
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Stack(
-                alignment: Alignment.centerRight,
+      backgroundColor: Colors.white,
+      body: FooterView(
+        footer: Footer(
+            child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:<Widget>[
+                  Text('© 2024 Princess Sumaya University for Technology . All Rights Reserved.',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 13.0,
+                  ),),
+                ]
+            ),
+
+          ),
+        children: [
+          Center(
+            child: SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 90),
+                  Image.asset(
+                    'lib/assets/images/logo.png',
+                    // width: 84.0,
+                    // height: 50.0,
+                  ),
+                  const Text('PSUT MyBus',
+                    style: TextStyle(
+                      fontFamily: 'Wellfleet',
+                      fontSize: 40.0,
+                    ),),
+                  const SizedBox(height: 20.0,),
                   Container(
-                    width: 180,
-                    height: 40,
+                    width: 450.0,
+                    height: 40.0,
+                    padding: const EdgeInsets.fromLTRB(5.0,0.0, 0.0, 10.0),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: TextField(
-                      obscureText: !_showPassword,
-                      decoration: InputDecoration(
+                    child: TextFormField(
+                      style: const TextStyle(
+                        fontFamily: 'Wellfleet',
+                        fontSize: 16.0,
+                      ),
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Password',
+                        hintText: 'Employee Email',
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        _showPassword = !_showPassword;
-                      });
-                    },
+                  const SizedBox(height: 10),
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      Container(
+                        width: 450.0,
+                        height: 40.0,
+                        padding: const EdgeInsets.fromLTRB(5.0,0.0, 0.0, 10.0),
+
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextFormField(
+                          style: const TextStyle(
+                            fontFamily: 'Wellfleet',
+                            fontSize: 16.0,
+                          ),
+                          obscureText: !_showPassword,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Password',
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: 320.0,
+                    height: 48.0,
+                    child: ElevatedButton(
+                        onPressed: () async {
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                          const Color.fromRGBO(11, 39, 143, 1.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'Wellfleet',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        )),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 70.0,
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextButton(
+                      onPressed: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const PSForget()),
+                        // );
+                      },
+                      child: const Text(
+                        'Forget Password?',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Color.fromRGBO(11, 39, 143, 1.0),
+                          fontSize: 16.0,
+                          fontFamily: 'Wellfleet',
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 90,
-                height: 40,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'lib/pages/home.dart');
-
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: Text('Login'),
-                ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  // forgot password
-                },
-                child: Text('Forgot Password?'),
-              ),
-            ],
+            ),
           ),
-        ),
+        ]
       ),
-    );
+      );
   }
 }

@@ -38,3 +38,8 @@ android {
 flutter {
     source = "../.."
 }
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.23"
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+}
