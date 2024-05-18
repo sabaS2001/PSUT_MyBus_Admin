@@ -190,14 +190,9 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
             child: ListTile(
               title: Row(
                 children: [
-                  Image.asset(
-                    'lib/assets/images/logo.png',
-                    width: 84.0,
-                    height: 50.0,
-                  ),
-                  const Text('Employee ID',
+                  Text( user!.email.toString(),
                       style:
-                          TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
+                          TextStyle(fontFamily: 'Wellfleet', fontSize: 14.0)),
                 ],
               ),
               trailing: Icon(
@@ -212,19 +207,17 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
               },
             ),
           ),
-          Container(
-            child: ListTile(
-                title: const Text('Change Password',
-                    style:
-                        TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
-                trailing:  Icon(
-                  Icons.lock_person,
-                  color: Colors.blue[900],
-                ),
-                onTap: () async {
-                  ChangePassword().showChangedPassword(context);
-                }),
-          ),
+          ListTile(
+              title: const Text('Change Password',
+                  style:
+                      TextStyle(fontFamily: 'Wellfleet', fontSize: 14.0)),
+              trailing:  Icon(
+                Icons.lock_person,
+                color: Colors.blue[900],
+              ),
+              onTap: () async {
+                ChangePassword().showChangedPassword(context);
+              }),
         ],
       ),
     );

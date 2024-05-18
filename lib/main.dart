@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bus_portal/pages/home.dart';
 import 'package:my_bus_portal/pages/login.dart';
+import 'package:my_bus_portal/pages/stdinfo.dart';
 import 'firebase_options.dart';
 
 void main() async {

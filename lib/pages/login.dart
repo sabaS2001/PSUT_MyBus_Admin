@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:footer/footer.dart';
 import 'package:footer/footer_view.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/forgetPassword.dart';
 
 import 'FireAuth.dart';
 import 'home.dart';
@@ -232,20 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.all(10.0),
                       child: TextButton(
                         onPressed: () async {
-                          try {
-                            await FirebaseAuth.instance.sendPasswordResetEmail(
-                                email: _emailController.text.trim());
-                            _showAlertDialog(context);
-                          } on FirebaseAuthException catch (e) {
-                            throw Exception(e.message.toString());
-                          } catch (e) {
-                            throw Exception(e.toString());
-                          }
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const PSForget()),
-                          // );
+                          ForgetPassword().ForgetPasswordDialog(context);
                         },
                         child: const Text(
                           'Forget Password?',

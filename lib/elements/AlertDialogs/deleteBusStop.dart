@@ -10,7 +10,7 @@ class BusStopInfo {
 class DeleteBusStop extends StatefulWidget {
   final String busLine;
   final String docID;
-  const DeleteBusStop({Key? key, required this.busLine, required this.docID}) : super(key: key);
+  const DeleteBusStop({super.key, required this.busLine, required this.docID});
   @override
   _DeleteBusStopState createState() => _DeleteBusStopState();
 }

@@ -77,20 +77,21 @@ class _EditBusStopState extends State<EditBusStop> {
                             children: [
                               const SizedBox(
                                 width: 200,
+                                height: 40,
                                 child: Text('Bus Stop Name:',
                                     style: TextStyle(
                                         fontFamily: 'Wellfleet',
                                         fontSize: 16.0)),
                               ),
                               SizedBox(
-                                width: 90,
-                                height: 30,
+                                width: 200,
+                                height: 40,
                                 child: Text(
                                     widget.docID,
                                     textAlign: TextAlign.justify,
                                     style: const TextStyle(
                                       fontFamily: 'Wellfleet',
-                                      fontSize: 16.0,
+                                      fontSize: 14.0,
                                       color: Colors.black,
                                     )),
                               ),
@@ -261,6 +262,9 @@ class _EditBusStopState extends State<EditBusStop> {
                             'arrivaltimeR1': arrivalTimeR1.text,
                             'arrivaltimeR2': arrivalTimeR2.text,
                              'location': GeoPoint(double.parse(locationLat.text), double.parse(locationLong.text))
+                          });
+                          await FirebaseFirestore.instance.collection('markersAdmin').doc(widget.docID).update({
+                            'location': GeoPoint(double.parse(locationLat.text), double.parse(locationLong.text))
                           });
                         },
                         style: ElevatedButton.styleFrom(

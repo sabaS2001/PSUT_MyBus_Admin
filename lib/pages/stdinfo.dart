@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/deleteInfo.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'login.dart';
 
@@ -264,110 +265,7 @@ class _StdInfoState extends State<StdInfo> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    shadowColor:
-                                                        Colors.blue[900],
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    title: const Center(
-                                                      child: Text(
-                                                          'Delete Account!',
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'Wellfleet',
-                                                            fontSize: 20.0,
-                                                            color: Colors.black,
-                                                          )),
-                                                    ),
-                                                    content: const Text(
-                                                        'Are you sure to delete this account!',
-                                                        textAlign:
-                                                            TextAlign.justify,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'Wellfleet',
-                                                          fontSize: 16.0,
-                                                          color: Colors.black,
-                                                        )),
-                                                    actions: <Widget>[
-                                                      ElevatedButton(
-                                                        child: const Text('OK',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Wellfleet',
-                                                              fontSize: 15.0,
-                                                              color:
-                                                                  Colors.black,
-                                                            )),
-                                                        onPressed: () {
-                                                          FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  "students")
-                                                              .doc(document.id)
-                                                              .delete()
-                                                              .then(
-                                                                (doc) => print(
-                                                                    "Document deleted"),
-                                                                onError: (e) =>
-                                                                    print(
-                                                                        "Error updating document $e"),
-                                                              );
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                      ElevatedButton(
-                                                        child: const Text(
-                                                            'CANCEL',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Wellfleet',
-                                                              fontSize: 15.0,
-                                                              color:
-                                                                  Colors.black,
-                                                            )),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.red[900]),
-                                            child: const Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.delete_sharp,
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(
-                                                  width: 8.0,
-                                                ),
-                                                Text(
-                                                  'Delete',
-                                                  style: TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily: 'Wellfleet',
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                          child: DeleteInfo(collectionName: 'students', docID: document.id),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(5.0),
@@ -403,6 +301,12 @@ class _StdInfoState extends State<StdInfo> {
                                                         )),
                                                     actions: <Widget>[
                                                       ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                          const Color.fromRGBO(11, 39, 143, 1.0),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(40.0)),
+                                                        ),
                                                         child: const Text(
                                                             'SAVE',
                                                             style: TextStyle(
@@ -410,7 +314,7 @@ class _StdInfoState extends State<StdInfo> {
                                                                   'Wellfleet',
                                                               fontSize: 15.0,
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.white,
                                                             )),
                                                         onPressed: () async {
                                                           try {
@@ -434,6 +338,12 @@ class _StdInfoState extends State<StdInfo> {
                                                         },
                                                       ),
                                                       ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                          const Color.fromRGBO(11, 39, 143, 1.0),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(40.0)),
+                                                        ),
                                                         child: const Text(
                                                             'CANCEL',
                                                             style: TextStyle(
@@ -441,7 +351,7 @@ class _StdInfoState extends State<StdInfo> {
                                                                   'Wellfleet',
                                                               fontSize: 15.0,
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.white,
                                                             )),
                                                         onPressed: () {
                                                           Navigator.of(context)
@@ -506,14 +416,11 @@ class _StdInfoState extends State<StdInfo> {
                                                     content: SizedBox(
                                                       height: 200,
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                         children: [
                                                           Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               const Text(
                                                                   'First Name: ',
@@ -561,6 +468,8 @@ class _StdInfoState extends State<StdInfo> {
                                                             ],
                                                           ),
                                                           Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               const Text(
                                                                   'Last Name: ',
@@ -608,6 +517,8 @@ class _StdInfoState extends State<StdInfo> {
                                                             ],
                                                           ),
                                                           Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               const Text(
                                                                   'Email: ',
@@ -655,6 +566,8 @@ class _StdInfoState extends State<StdInfo> {
                                                             ],
                                                           ),
                                                           Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               const Text(
                                                                   'Student ID: ',
@@ -706,6 +619,12 @@ class _StdInfoState extends State<StdInfo> {
                                                     ),
                                                     actions: <Widget>[
                                                       ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                          const Color.fromRGBO(11, 39, 143, 1.0),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(40.0)),
+                                                        ),
                                                         child: const Text(
                                                             'SAVE',
                                                             style: TextStyle(
@@ -713,7 +632,7 @@ class _StdInfoState extends State<StdInfo> {
                                                                   'Wellfleet',
                                                               fontSize: 15.0,
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.white,
                                                             )),
                                                         onPressed: () async {
                                                           try {
@@ -743,6 +662,12 @@ class _StdInfoState extends State<StdInfo> {
                                                         },
                                                       ),
                                                       ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                          const Color.fromRGBO(11, 39, 143, 1.0),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(40.0)),
+                                                        ),
                                                         child: const Text(
                                                             'CANCEL',
                                                             style: TextStyle(
@@ -750,7 +675,7 @@ class _StdInfoState extends State<StdInfo> {
                                                                   'Wellfleet',
                                                               fontSize: 15.0,
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.white,
                                                             )),
                                                         onPressed: () {
                                                           Navigator.of(context)

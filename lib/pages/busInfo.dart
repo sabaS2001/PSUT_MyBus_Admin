@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/deleteInfo.dart';
+import 'package:my_bus_portal/elements/BusDriverValidation.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/addBusDriver.dart';
 import 'package:my_bus_portal/pages/stdinfo.dart';
 import 'home.dart';
 import 'login.dart';
 
-class BusInfo extends StatefulWidget {
+class BusInfo extends StatefulWidget with InputValidationBusDriversMixin{
   const BusInfo({super.key});
 
   @override
@@ -287,7 +289,7 @@ class _BusInfoState extends State<BusInfo> {
                             TableCell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: Text(data['busLine'],
+                                  child: Text(data['busLine'] ?? data['busLine'],
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 16,
@@ -296,7 +298,7 @@ class _BusInfoState extends State<BusInfo> {
                             TableCell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: Text(data['busNumber'],
+                                  child: Text(data['busNumber'] ?? data['busNumber'],
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 16,
@@ -305,7 +307,7 @@ class _BusInfoState extends State<BusInfo> {
                             TableCell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: Text(data['phoneNumber'],
+                                  child: Text(data['phoneNumber'] ?? 'none',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 16,
@@ -318,110 +320,7 @@ class _BusInfoState extends State<BusInfo> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(2.0),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext context) {
-                                            return AlertDialog(
-                                              shadowColor:
-                                              Colors.blue[900],
-                                              backgroundColor:
-                                              Colors.white,
-                                              title: const Center(
-                                                child: Text(
-                                                    'Delete Account!',
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                      'Wellfleet',
-                                                      fontSize: 20.0,
-                                                      color: Colors.black,
-                                                    )),
-                                              ),
-                                              content: const Text(
-                                                  'Are you sure to delete this account!',
-                                                  textAlign:
-                                                  TextAlign.justify,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                    'Wellfleet',
-                                                    fontSize: 16.0,
-                                                    color: Colors.black,
-                                                  )),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                  child: const Text('OK',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                        'Wellfleet',
-                                                        fontSize: 15.0,
-                                                        color:
-                                                        Colors.black,
-                                                      )),
-                                                  onPressed: () {
-                                                    FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                        "drivers")
-                                                        .doc(document.id)
-                                                        .delete()
-                                                        .then(
-                                                          (doc) => print(
-                                                          "Document deleted"),
-                                                      onError: (e) =>
-                                                          print(
-                                                              "Error updating document $e"),
-                                                    );
-                                                    Navigator.of(context)
-                                                        .pop();
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  child: const Text(
-                                                      'CANCEL',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                        'Wellfleet',
-                                                        fontSize: 15.0,
-                                                        color:
-                                                        Colors.black,
-                                                      )),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                          Colors.red[900]),
-                                      child: const Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.delete_sharp,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(
-                                            width: 8.0,
-                                          ),
-                                          Text(
-                                            'Delete',
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontFamily: 'Wellfleet',
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    child: DeleteInfo(collectionName: 'drivers', docID: document.id),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -453,9 +352,11 @@ class _BusInfoState extends State<BusInfo> {
                                                       .center,
                                                   mainAxisAlignment:
                                                   MainAxisAlignment
-                                                      .spaceAround,
+                                                      .spaceEvenly,
                                                   children: [
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'Bus Line: ',
@@ -464,9 +365,6 @@ class _BusInfoState extends State<BusInfo> {
                                                                 'Wellfleet',
                                                                 fontSize:
                                                                 16.0)),
-                                                        const SizedBox(
-                                                          width: 30,
-                                                        ),
                                                         SizedBox(
                                                           width: 200,
                                                           height: 30,
@@ -503,6 +401,8 @@ class _BusInfoState extends State<BusInfo> {
                                                       ],
                                                     ),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'Bus Number: ',
@@ -511,9 +411,6 @@ class _BusInfoState extends State<BusInfo> {
                                                                 'Wellfleet',
                                                                 fontSize:
                                                                 16.0)),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
                                                         SizedBox(
                                                           width: 200,
                                                           height: 30,
@@ -554,6 +451,12 @@ class _BusInfoState extends State<BusInfo> {
                                               ),
                                               actions: <Widget>[
                                                 ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                    const Color.fromRGBO(11, 39, 143, 1.0),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(40.0)),
+                                                  ),
                                                   child: const Text(
                                                       'SAVE',
                                                       style: TextStyle(
@@ -561,7 +464,7 @@ class _BusInfoState extends State<BusInfo> {
                                                         'Wellfleet',
                                                         fontSize: 15.0,
                                                         color:
-                                                        Colors.black,
+                                                        Colors.white,
                                                       )),
                                                   onPressed: () async {
                                                     try {
@@ -587,6 +490,12 @@ class _BusInfoState extends State<BusInfo> {
                                                   },
                                                 ),
                                                 ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                    const Color.fromRGBO(11, 39, 143, 1.0),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(40.0)),
+                                                  ),
                                                   child: const Text(
                                                       'CANCEL',
                                                       style: TextStyle(
@@ -594,7 +503,7 @@ class _BusInfoState extends State<BusInfo> {
                                                         'Wellfleet',
                                                         fontSize: 15.0,
                                                         color:
-                                                        Colors.black,
+                                                        Colors.white,
                                                       )),
                                                   onPressed: () {
                                                     Navigator.of(context)
@@ -659,14 +568,11 @@ class _BusInfoState extends State<BusInfo> {
                                               content: SizedBox(
                                                 height: 200,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .center,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceAround,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: [
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'First Name: ',
@@ -675,9 +581,7 @@ class _BusInfoState extends State<BusInfo> {
                                                                 'Wellfleet',
                                                                 fontSize:
                                                                 16.0)),
-                                                        const SizedBox(
-                                                          width: 30,
-                                                        ),
+
                                                         SizedBox(
                                                           width: 200,
                                                           height: 30,
@@ -714,6 +618,8 @@ class _BusInfoState extends State<BusInfo> {
                                                       ],
                                                     ),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'Last Name: ',
@@ -722,9 +628,6 @@ class _BusInfoState extends State<BusInfo> {
                                                                 'Wellfleet',
                                                                 fontSize:
                                                                 16.0)),
-                                                        const SizedBox(
-                                                          width: 30,
-                                                        ),
                                                         SizedBox(
                                                           width: 200,
                                                           height: 30,
@@ -761,6 +664,8 @@ class _BusInfoState extends State<BusInfo> {
                                                       ],
                                                     ),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'Phone Number: ',
@@ -808,6 +713,8 @@ class _BusInfoState extends State<BusInfo> {
                                                       ],
                                                     ),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         const Text(
                                                             'Employee ID: ',
@@ -859,6 +766,12 @@ class _BusInfoState extends State<BusInfo> {
                                               ),
                                               actions: <Widget>[
                                                 ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                    const Color.fromRGBO(11, 39, 143, 1.0),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(40.0)),
+                                                  ),
                                                   child: const Text(
                                                       'SAVE',
                                                       style: TextStyle(
@@ -866,7 +779,7 @@ class _BusInfoState extends State<BusInfo> {
                                                         'Wellfleet',
                                                         fontSize: 15.0,
                                                         color:
-                                                        Colors.black,
+                                                        Colors.white,
                                                       )),
                                                   onPressed: () async {
                                                     try {
@@ -896,6 +809,12 @@ class _BusInfoState extends State<BusInfo> {
                                                   },
                                                 ),
                                                 ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                    const Color.fromRGBO(11, 39, 143, 1.0),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(40.0)),
+                                                  ),
                                                   child: const Text(
                                                       'CANCEL',
                                                       style: TextStyle(
@@ -903,7 +822,7 @@ class _BusInfoState extends State<BusInfo> {
                                                         'Wellfleet',
                                                         fontSize: 15.0,
                                                         color:
-                                                        Colors.black,
+                                                        Colors.white,
                                                       )),
                                                   onPressed: () {
                                                     Navigator.of(context)
@@ -967,44 +886,3 @@ class _BusInfoState extends State<BusInfo> {
   }
 }
 
-void _showChangedPasswordDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shadowColor: Colors.blue[900],
-        backgroundColor: Colors.white,
-        title: const Center(
-          child: Text('Password Changed!',
-              style: TextStyle(
-                fontFamily: 'Wellfleet',
-                fontSize: 20.0,
-                color: Colors.black,
-              )),
-        ),
-        content: const Text('The Password have changed!',
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-              fontFamily: 'Wellfleet',
-              fontSize: 16.0,
-              color: Colors.black,
-            )),
-        actions: <Widget>[
-          Center(
-            child: ElevatedButton(
-              child: const Text('OK',
-                  style: TextStyle(
-                    fontFamily: 'Wellfleet',
-                    fontSize: 15.0,
-                    color: Colors.black,
-                  )),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ],
-      );
-    },
-  );
-}
