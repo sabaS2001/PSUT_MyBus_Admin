@@ -91,7 +91,8 @@ class _LoginPageState extends State<LoginPage> {
             Center(
               child: SizedBox(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 90),
                     Image.asset(
@@ -105,21 +106,15 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 40.0,
                       ),),
                     const SizedBox(height: 20.0,),
-                    Container(
+                    SizedBox(
                       width: 450.0,
-                      height: 40.0,
-                      padding: const EdgeInsets.fromLTRB(5.0,0.0, 0.0, 10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                       child: TextFormField(
                         controller: _emailController,
                         validator: (psEmail) {
                           if (isEmailValid(psEmail!)) {
                             return null;
                           } else {
-                            return 'Invalid Student Email!';
+                            return 'Invalid Employee Email!';
                           }
                         },
                         style: const TextStyle(
@@ -127,7 +122,10 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 16.0,
                         ),
                         decoration: InputDecoration(
-                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),),
                           hintText: 'Employee Email',
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -141,19 +139,12 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Stack(
                       alignment: Alignment.centerRight,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 450.0,
-                          height: 40.0,
-                          padding: const EdgeInsets.fromLTRB(5.0,0.0, 0.0, 10.0),
-
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
                           child: TextFormField(
                             controller: _passwordController,
                             validator: (psPassword) {
@@ -169,7 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),),
                               hintText: 'Password',
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),

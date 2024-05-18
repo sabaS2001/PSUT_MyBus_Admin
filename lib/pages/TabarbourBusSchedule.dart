@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/deleteBusStop.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/editBusStopInfo.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'package:my_bus_portal/pages/login.dart';
 
-class TabarbourBusSchedule extends StatefulWidget {
-  const TabarbourBusSchedule({super.key});
+class TabarbourBusSchedule extends StatelessWidget {
+  TabarbourBusSchedule({super.key});
 
-  @override
-  State<TabarbourBusSchedule> createState() => _TabarbourBusScheduleState();
-}
-
-class _TabarbourBusScheduleState extends State<TabarbourBusSchedule> {
   double getScreenHeight(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return screenHeight;
@@ -22,16 +18,12 @@ class _TabarbourBusScheduleState extends State<TabarbourBusSchedule> {
       .collection('markers')
       .doc('Tabarbour')
       .collection('Routes3');
+
   User? user = FirebaseAuth.instance.currentUser;
 
   double getScreenWidth(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -265,35 +257,11 @@ class _TabarbourBusScheduleState extends State<TabarbourBusSchedule> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: [
-                                        EditBusStop(),
+                                        EditBusStop(busLine: 'Tabarbour', docID: document.id,),
                                         const SizedBox(
                                           width: 20.0,
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                            WidgetStatePropertyAll(
-                                                Colors.red.shade800),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Icon(Icons.delete,
-                                                  color: Colors.white),
-                                              SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Text(
-                                                'Delete Bus Stop',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily:
-                                                    'Wellfleet',
-                                                    fontSize: 15.0),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        DeleteBusStop(busLine: 'Tabarbour', docID: document.id,),
                                       ],
                                     ))),
                           ],

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/deleteBusStop.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/editBusStopInfo.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'package:my_bus_portal/pages/login.dart';
@@ -265,35 +266,11 @@ class _MarjBusScheduleState extends State<MarjBusSchedule> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: [
-                                        EditBusStop(),
+                                        EditBusStop(busLine: 'Marj Al Hammam', docID: document.id,),
                                         const SizedBox(
                                           width: 20.0,
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                            WidgetStatePropertyAll(
-                                                Colors.red.shade800),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Icon(Icons.delete,
-                                                  color: Colors.white),
-                                              SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Text(
-                                                'Delete Bus Stop',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily:
-                                                    'Wellfleet',
-                                                    fontSize: 15.0),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        DeleteBusStop(busLine: 'Marj Al Hammam', docID: document.id,),
                                       ],
                                     ))),
                           ],

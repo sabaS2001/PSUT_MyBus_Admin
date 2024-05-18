@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_bus_portal/pages/addBusDriver.dart';
+import 'package:my_bus_portal/elements/Drawer.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/addBusDriver.dart';
 import 'package:my_bus_portal/pages/stdinfo.dart';
 import 'home.dart';
 import 'login.dart';
@@ -103,159 +104,7 @@ class _BusInfoState extends State<BusInfo> {
           ),
         ],
       ),
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20.0),
-          children: [
-            DrawerHeader(
-              child: Image.asset(
-                'lib/assets/images/logo.png',
-                width: 50.0,
-                height: 50.0,
-              ),
-            ),
-            ListTile(
-              selectedColor: Colors.grey[400],
-              leading: Icon(
-                Icons.dashboard,
-                color: Colors.blue[900],
-              ),
-              title: const Text('Dashboard',
-                  style: TextStyle(
-                    fontFamily: 'Wellfleet',
-                    fontSize: 15.0,
-                  )),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
-              },
-            ),
-            ListTile(
-              selectedColor: Colors.grey[400],
-              leading: Icon(Icons.directions_bus, color: Colors.blue[900]),
-              title: const Text('Bus Drivers',
-                  style: TextStyle(
-                    fontFamily: 'Wellfleet',
-                    fontSize: 15.0,
-                  )),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const BusInfo()));
-              },
-            ),
-            ListTile(
-              selectedColor: Colors.grey[400],
-              leading: Icon(
-                Icons.message,
-                color: Colors.blue[900],
-              ),
-              title: const Text('Messages',
-                  style: TextStyle(
-                    fontFamily: 'Wellfleet',
-                    fontSize: 15.0,
-                  )),
-              onTap: () {
-                Navigator.pushNamed(context, '/messages');
-                // Navigator.push(context,MaterialPageRoute(builder: (context) =>const Home()));
-              },
-            ),
-            ListTile(
-              selectedColor: Colors.grey[400],
-              leading: Icon(
-                Icons.person,
-                color: Colors.blue[900],
-              ),
-              title: const Text('Student Files',
-                  style: TextStyle(
-                    fontFamily: 'Wellfleet',
-                    fontSize: 15.0,
-                  )),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const StdInfo()));
-              },
-            ),
-            ListTile(
-              selectedColor: Colors.grey[400],
-              leading: Icon(
-                Icons.schedule,
-                color: Colors.blue[900],
-              ),
-              title: const Text('Bus Schedule',
-                  style: TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
-              onTap: () {
-                Navigator.pushNamed(context, '/sched');
-                //  Navigator.push(context,MaterialPageRoute(builder: (context) => const Home()));
-              },
-            ),
-            Container(
-              color: Colors.grey[200],
-              margin: EdgeInsets.fromLTRB(
-                  0.0,
-                  (getScreenHeight(context) - getScreenHeight(context) * 0.75),
-                  0.0,
-                  0.0),
-              alignment: Alignment.bottomRight,
-              child: ListTile(
-                title: Row(
-                  children: [
-                    Image.asset(
-                      'lib/assets/images/logo.png',
-                      width: 84.0,
-                      height: 50.0,
-                    ),
-                    const Text('Employee ID',
-                        style:
-                        TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
-                  ],
-                ),
-                tileColor: Colors.grey[200],
-                trailing: Icon(
-                  Icons.logout_sharp,
-                  color: Colors.blue[900],
-                ),
-                onTap: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                },
-              ),
-            ),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('Change Password',
-                      style:
-                      TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
-                  Icon(
-                    Icons.lock_person,
-                    color: Colors.blue[900],
-                  ),
-                ],
-              ),
-              onTap: () async {
-                try {
-                  await FirebaseAuth.instance
-                      .sendPasswordResetEmail(email: '${user!.email}');
-                  _showChangedPasswordDialog(context);
-                } on FirebaseAuthException catch (e) {
-                  throw Exception(e.message.toString());
-                } catch (e) {
-                  throw Exception(e.toString());
-                }
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const PSUTDrawer(),
       body: StreamBuilder(
         stream: users.snapshots(),
         builder: (context, snapshot) {
@@ -294,9 +143,9 @@ class _BusInfoState extends State<BusInfo> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      ElevatedButton(onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const AddBusDriver()));
+                      ElevatedButton(
+                          onPressed: () async {
+                              AddBusDriver().addBusDriver(context);
                       },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[900],

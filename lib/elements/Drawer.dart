@@ -7,7 +7,6 @@ import 'package:my_bus_portal/pages/TabarbourBusSchedule.dart';
 import 'package:my_bus_portal/pages/busInfo.dart';
 import 'package:my_bus_portal/pages/home.dart';
 import 'package:my_bus_portal/pages/login.dart';
-import 'package:my_bus_portal/pages/sched.dart';
 import 'package:my_bus_portal/pages/stdinfo.dart';
 
 class PSUTDrawer extends StatefulWidget {
@@ -24,10 +23,12 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
     double screenHeight = MediaQuery.of(context).size.height;
     return screenHeight;
   }
+
   double getScreenWidth(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth;
   }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -113,7 +114,7 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                 style: TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
             children: [
               Padding(
-                padding: const EdgeInsets.only(left : 10.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 child: ListTile(
                   selectedColor: Colors.grey[400],
                   leading: Icon(
@@ -126,13 +127,15 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                         fontSize: 14.0,
                       )),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MarjBusSchedule()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MarjBusSchedule()));
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left : 10.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 child: ListTile(
                   selectedColor: Colors.grey[400],
                   leading: Icon(
@@ -145,13 +148,15 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                         fontSize: 14.0,
                       )),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MadinahBusSchedule()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MadinahBusSchedule()));
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left : 10.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 child: ListTile(
                   selectedColor: Colors.grey[400],
                   leading: Icon(
@@ -164,8 +169,11 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                         fontSize: 14.0,
                       )),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const TabarbourBusSchedule()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                TabarbourBusSchedule()));
                   },
                 ),
               ),
@@ -189,50 +197,33 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                   ),
                   const Text('Employee ID',
                       style:
-                      TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
+                          TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
                 ],
               ),
-              tileColor: Colors.grey[200],
               trailing: Icon(
                 Icons.logout_sharp,
                 color: Colors.blue[900],
               ),
+              tileColor: Colors.grey[200],
               onTap: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               },
             ),
           ),
-          ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text('Change Password',
+          Container(
+            child: ListTile(
+                title: const Text('Change Password',
                     style:
-                    TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
-                Icon(
+                        TextStyle(fontFamily: 'Wellfleet', fontSize: 15.0)),
+                trailing:  Icon(
                   Icons.lock_person,
                   color: Colors.blue[900],
                 ),
-              ],
-            ),
-            onTap: () async {
-              try {
-                await FirebaseAuth.instance
-                    .sendPasswordResetEmail(email: '${user!.email}');
-                const Showchangedpassword();
-              } on FirebaseAuthException catch (e) {
-                throw Exception(e.message.toString());
-              } catch (e) {
-                throw Exception(e.toString());
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
-            },
+                onTap: () async {
+                  ChangePassword().showChangedPassword(context);
+                }),
           ),
         ],
       ),

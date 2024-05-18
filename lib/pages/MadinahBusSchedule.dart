@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/deleteBusStop.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/editBusStopInfo.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'package:my_bus_portal/pages/login.dart';
+
 
 class MadinahBusSchedule extends StatefulWidget {
   const MadinahBusSchedule({super.key});
@@ -18,7 +20,7 @@ class _MadinahBusScheduleState extends State<MadinahBusSchedule> {
     return screenHeight;
   }
 
-  CollectionReference users = FirebaseFirestore.instance.collection('markers').doc('Madinah').collection('Routes');
+  CollectionReference users = FirebaseFirestore.instance.collection('markers').doc('Madinah ').collection('Routes');
   User? user = FirebaseAuth.instance.currentUser;
 
   double getScreenWidth(BuildContext context) {
@@ -258,35 +260,11 @@ class _MadinahBusScheduleState extends State<MadinahBusSchedule> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: [
-                                        EditBusStop(),
+                                        EditBusStop(busLine: 'Madinah ', docID: document.id,),
                                         const SizedBox(
                                           width: 20.0,
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                            WidgetStatePropertyAll(
-                                                Colors.red.shade800),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Icon(Icons.delete,
-                                                  color: Colors.white),
-                                              SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Text(
-                                                'Delete Bus Stop',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily:
-                                                    'Wellfleet',
-                                                    fontSize: 15.0),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        DeleteBusStop(busLine: 'Madinah ', docID: document.id,),
                                       ],
                                     ))),
                           ],
