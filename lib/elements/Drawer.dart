@@ -5,6 +5,7 @@ import 'package:my_bus_portal/pages/MadinahBusSchedule.dart';
 import 'package:my_bus_portal/pages/MarjBusSchedule.dart';
 import 'package:my_bus_portal/pages/TabarbourBusSchedule.dart';
 import 'package:my_bus_portal/pages/busInfo.dart';
+import 'package:my_bus_portal/pages/chat.dart';
 import 'package:my_bus_portal/pages/home.dart';
 import 'package:my_bus_portal/pages/login.dart';
 import 'package:my_bus_portal/pages/stdinfo.dart';
@@ -85,8 +86,7 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                   fontSize: 15.0,
                 )),
             onTap: () {
-              Navigator.pushNamed(context, '/messages');
-              // Navigator.push(context,MaterialPageRoute(builder: (context) =>const Home()));
+              Navigator.push(context,MaterialPageRoute(builder: (context) => AdminChat(email: user!.email.toString(),)));
             },
           ),
           ListTile(
