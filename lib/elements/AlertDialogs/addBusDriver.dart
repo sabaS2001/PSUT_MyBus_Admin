@@ -462,7 +462,7 @@ class AddBusDriver with InputValidationBusDriversMixin {
                             password: _password.text,
                           );
                           if(user != null) {
-                            FirebaseFirestore.instance.collection('drivers').doc(user!.uid).set({
+                            FirebaseFirestore.instance.collection('drivers').doc(user.uid).set({
                               'firstName': _firstName.text,
                               'lastName': _lastName.text,
                               'email': _email.text,

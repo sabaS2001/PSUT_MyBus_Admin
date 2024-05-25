@@ -192,7 +192,7 @@ class _PSUTDrawerState extends State<PSUTDrawer> {
                 children: [
                   Text( user!.email.toString(),
                       style:
-                          TextStyle(fontFamily: 'Wellfleet', fontSize: 14.0)),
+                          const TextStyle(fontFamily: 'Wellfleet', fontSize: 14.0)),
                 ],
               ),
               trailing: Icon(

@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,7 @@ class BusStopInfo {
 class EditBusStop extends StatefulWidget {
   final String busLine;
   final String docID;
-  const EditBusStop({Key? key, required this.busLine, required this.docID}) : super(key: key);
+  const EditBusStop({super.key, required this.busLine, required this.docID});
   @override
   State<EditBusStop> createState() => _EditBusStopState();
 }

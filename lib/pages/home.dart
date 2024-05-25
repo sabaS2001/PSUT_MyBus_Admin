@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/notification.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
-import 'busInfo.dart';
-import 'login.dart';
-import 'stdinfo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_bus_portal/pages/driverMaps.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,12 +15,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  Stream<QuerySnapshot<Object?>> notify = FirebaseFirestore.instance
+      .collection('Notifications')
+      .snapshots();
+
 
   double getScreenHeight(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return screenHeight;
   }
   User? user = FirebaseAuth.instance.currentUser;
+  late Stream<QuerySnapshot> _driversStream;
+
 
   @override
   void initState() {
@@ -35,7 +39,38 @@ class _HomeState extends State<Home> {
         print('User is signed in: ${user.email}');
       }
     });
+    _driversStream = FirebaseFirestore.instance.collection('drivers').snapshots();
+    _listenToDriversStream();
   }
+
+  void _listenToDriversStream() {
+    _driversStream.listen((querySnapshot) {
+      setState(() {
+        markers.clear(); // Clear the markers set
+        for (var doc in querySnapshot.docs) {
+          double lat = doc.get('latitude');
+          double long = doc.get('longitude');
+          double latitude = lat;
+          double longitude = long;
+          markers.add(
+            Marker(
+              infoWindow: const InfoWindow(title: 'Bus Driver'),
+              markerId: const MarkerId('currentLocation'),
+              position: LatLng(latitude, longitude),
+                icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const driverMaps()),
+                );
+              }
+            ),
+          );
+        }
+      });
+    });
+  }
+
 
 
   late GoogleMapController mapController;
@@ -65,38 +100,7 @@ class _HomeState extends State<Home> {
               color: Colors.blue[900],
             ),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Notifications'),
-                    content: const Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 1'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 2'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 3'),
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  );
-                },
-              );
+              EmergencyNotification().notificationAdmin(context);
             },
           ),
         ],

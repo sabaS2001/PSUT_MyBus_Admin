@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/deleteBusStop.dart';
 import 'package:my_bus_portal/elements/AlertDialogs/editBusStopInfo.dart';
+import 'package:my_bus_portal/elements/AlertDialogs/notification.dart';
 import 'package:my_bus_portal/elements/Drawer.dart';
 import 'package:my_bus_portal/pages/login.dart';
 
@@ -58,38 +59,7 @@ class _MarjBusScheduleState extends State<MarjBusSchedule> {
               color: Colors.blue[900],
             ),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Notifications'),
-                    content: const Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 1'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 2'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notification 3'),
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  );
-                },
-              );
+              EmergencyNotification().notificationAdmin(context);
             },
           ),
         ],

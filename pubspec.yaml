@@ -43,6 +43,8 @@ dependencies:
   footer: ^0.0.4
   geolocator: ^11.0.0
   geocoding: ^3.0.0
+  image: ^4.1.7
+  flutter_polyline_points: ^2.0.0
 
 dev_dependencies:
   flutter_test:

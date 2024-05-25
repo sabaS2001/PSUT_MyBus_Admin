@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Messages extends StatefulWidget {
   String email;
-  Messages({required this.email});
+  Messages({super.key, required this.email});
   @override
   _MessagesState createState() => _MessagesState(email: email);
 }
@@ -87,10 +87,6 @@ class _MessagesState extends State<Messages> {
                           ),
                           Text(
                             "${dateTime.hour}:${dateTime.minute}",
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Wellfleet'
-                              ),
                           )
                         ],
                       ),
